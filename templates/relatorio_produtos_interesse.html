@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/relatorio.css' %}">
+    <title>Relatório de Produtos Agendados</title>
+</head>
+<header>
+    <div class="logo">
+        <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home_admin' id_admin %}">Agendamentos</a></li>
+            <li><a href="{% url 'relatorio_produtos_interesse' id_unidade id_admin %}" class="active">Relatório de Produtos com Mais Interesse</a></li>
+            <li><a href="{% url 'relatorio_agendamentos_realizados' id_unidade id_admin %}">Relatório de Agendamentos Realizados</a></li>
+        </ul>
+    </nav>
+</header>
+<body>
+    <div class="title">
+        <h1>Relatório de Produtos com Mais Interesse</h1>
+    </div>
+    
+    <section id="tabela">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Produto</th>
+                    <th>Total de Agendamentos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos_interesse %}
+                <tr>
+                    <td>{{ produto.id_item__nome_item }}</td>
+                    <td>{{ produto.total }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">Nenhum produto encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

@@ -1,0 +1,115 @@
+/* Reseta estilos básicos e define background */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Ajustado para flex-start para manter o header visível */
+    height: auto; /* Permitir que o corpo cresça conforme o conteúdo */
+    background-color: #ffffff;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: #0A4973;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo a img {
+    height: 100px;
+    width: auto;
+    max-width: 100%;
+}
+
+.prodDesc {
+    margin-top: 150px; /* Espaço entre o header e a descrição */
+    border-radius: 20px;
+    width: 60%; /* Largura padrão */
+    max-width: 800px; /* Largura máxima */
+    background-color: #0a4072;
+    box-shadow: 7px 9px 11px rgb(7, 42, 76);
+    overflow: auto; /* Permite rolagem se o conteúdo for muito grande */
+    padding: 20px; /* Adiciona espaçamento interno */
+}
+
+.prodDesc p {
+    margin: 20px;
+    padding: 20px 5px;
+    background-color: #fefeff;
+    border-radius: 20px;
+}
+
+.prodDesc h1 {
+    font-size: 2.5em;
+    padding: 5px;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.prodDesc p {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* Estilos para a seção dos botões abaixo de prodDesc */
+.button-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    /* Espaço entre a descrição do produto e os botões */
+}
+
+.button-container button {
+    margin-right: 20px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border: 2px solid #fb9815;
+    border-radius: 5px;
+    background-color: rgb(245, 131, 0);
+    color: #fff;
+    width: 300px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button-container button:hover {
+    border: 2px solid #ffffff;
+    background-color: #ffffff;
+    color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+h4#descricao {
+    color: #ff8800;
+}
+
+/* Adicionando responsividade */
+@media (max-width: 768px) {
+    .prodDesc {
+        width: 90%; /* Largura maior em telas menores */
+        margin: 20px auto; /* Centraliza a div */
+    }
+}
+.voltar-btn:hover {
+    color: #ff8800;
+}
+
+.voltar-btn ion-icon {
+    font-size: 2.0em;
+}

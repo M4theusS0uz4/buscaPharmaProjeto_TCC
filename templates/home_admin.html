@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% load static %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={% static 'css/universal.css'%}>
+    <link rel="stylesheet" href="{% static 'css/home_admin.css' %}" />
+    <title>Agendamentos</title>
+</head>
+<body>
+    <!-- Navbar e logo -->
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma">
+        </div>
+        <nav>
+    <ul>
+        <li><a href="{% url 'home_admin' id_admin %}" class="active">Agendamentos</a></li>
+        <li><a href="{% url 'relatorio_produtos_interesse' unidade.id_unidade id_admin %}">Relatórios</a></li>
+    </ul>
+</nav>
+    </header>
+
+    <!-- Barra de busca -->
+    <div class="search-container">
+        <input type="text" placeholder="Procure por agendamento: (Nome Cliente)" class="search-input" id="barra-de-pesquisa" />
+        <button id="search-button">Buscar Agendamento</button>
+    </div>
+
+    <!-- Título da seção -->
+    <div class="title">
+        <h1>Agendamentos de Usuários</h1>
+        <br><h1>Unidade: {{ unidade.nome }}</h1>
+    </div>
+
+    <!-- Cards de agendamentos -->
+    <section id="cards">
+        {% if agendamentos %}
+            {% for agendamento in agendamentos %}
+                <div class="card" >
+                    <h3 class="cliente-nome">Nome do Cliente: {{ agendamento.cpf.first_name }} {{ agendamento.cpf.last_name }}</h3>
+                    <p>Data: {{ agendamento.data |date:"d/m/Y"}}</p>
+                    <p>Hora: {{ agendamento.hora |time:"H:i" }}</p>
+                    <p>Interesse: {{ agendamento.id_item.nome_item }}</p>
+                    <!-- Botão para marcar como realizado -->
+                    <form action="{% url 'marcar_realizado' agendamento.id_agendamento id_admin %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-realizado">Marcar como Realizado</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Não há agendamentos para esta unidade.</p>
+        {% endif %}
+    </section>
+
+    <!-- Script para busca -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obter o campo de busca, botão e os cards de agendamento
+            const searchBar = document.getElementById('barra-de-pesquisa');
+            const searchButton = document.getElementById('search-button');
+            const cards = document.querySelectorAll('.card');
+
+            // Adicionar o evento de clique no botão de busca
+            searchButton.addEventListener('click', function() {
+                const searchValue = searchBar.value.toLowerCase().trim(); // Obter o valor digitado, convertendo para minúsculas e removendo espaços extras
+
+                if (searchValue === "") {
+                    // Se o campo de busca estiver vazio, mostrar todos os cards
+                    cards.forEach(function(card) {
+                        card.style.display = '';
+                    });
+                } else {
+                    // Loop por todos os cards e verificar o nome exato do cliente
+                    cards.forEach(function(card) {
+                        const clientName = card.querySelector('.cliente-nome').textContent.toLowerCase().trim();
+
+                        // Verificar se o nome do cliente é exatamente igual ao valor digitado
+                        if (clientName.includes(searchValue)) {
+                            card.style.display = '';  // Mostrar o card se corresponder
+                        } else {
+                            card.style.display = 'none';  // Esconder o card se não corresponder
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

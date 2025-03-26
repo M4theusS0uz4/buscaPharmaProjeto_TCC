@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizar {{ item.nome_item }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/localizar_remedio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+    <script src="https://maps.googleapis.com/maps/api/js?key=CHAVEAPI" async defer></script>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}"><img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'busca' %}" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+
+<!-- Mapa embutido -->
+<div id="map"></div>
+
+<div class="aviso-agendamento">
+    <p>Para agendar, é necessário estar cadastrado e conectado. Você também pode agendar diretamente pelo botão "Agendar" no mapa ou ao lado da unidade que foi escolhida por você que estará logo abaixo.(Sempre clique no botão agendar na unidade desejada)</p>
+</div>
+<!-- Seção de farmácias -->
+<section class="farmacias">
+    <h2>Disponibilidade de {{ item.nome_item }}</h2>
+    <ul id="farmacias-list">
+        {% for unidade_info in unidades_com_quantidade %}
+            <li>
+                <a href="javascript:void(0);" onclick="focusOnMarker({{ unidade_info.latitude }}, {{ unidade_info.longitude }}, '{{ unidade_info.unidade.nome }}')">
+                    <span class="{% if unidade_info.status == 'Aberto' %}status-aberto{% elif unidade_info.status == 'Fechado' %}status-fechado{% endif %}">
+                        {{ unidade_info.unidade.nome }} - Quantidade do Produto Disponível: {{ unidade_info.quantidade_atual }} - Endereço: {{ unidade_info.logradouro_e_numero }} - Status: {{ unidade_info.status }}
+                    </span>
+                </a>
+                <a href="{% url 'agendar' item.id_item unidade_info.unidade.id_unidade %}" class="agendar-btn" style="color: black">Agendar</a>
+            </li>
+        {% empty %}
+            <li>Nenhuma unidade disponível para este item no momento.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<script>
+    let map;
+    let markers = [];
+
+    // Função para inicializar o mapa
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -23.0816, lng: -47.2101 }, // Coordenadas de Indaiatuba
+            zoom: 12,
+        });
+
+        // Adiciona os marcadores no mapa para as farmácias disponíveis
+        {% for unidade_info in unidades_com_quantidade %}
+            addMarker({{ unidade_info.latitude }}, {{ unidade_info.longitude }}, '{{ unidade_info.unidade.nome }}', {{ unidade_info.quantidade_atual }},'{{ unidade_info.status }}',{{ item.id_item }},{{ unidade_info.unidade.id_unidade }});
+        {% endfor %}
+    }
+
+    // Função para adicionar um marcador
+    function addMarker(lat, lng, nome, quantidade,status,id_item, id_unidade) {
+        const marker = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            map: map,
+            title: nome, // Nome da farmácia
+        });
+
+        // Cria uma info window para exibir o nome e a quantidade
+        const infoWindow = new google.maps.InfoWindow({
+            content: `<h2>${nome}</h2>
+                  <h3>Quantidade disponível: ${quantidade}</h3>
+                  <h3>Status: ${status}</h3>
+                  <a href="/agendar/${id_item}/${id_unidade}">Agendar</a>`,
+        });
+
+        // Adiciona o evento de clique ao marcador para centralizar o mapa e abrir a info window
+        marker.addListener('click', function() {
+            map.setCenter(marker.getPosition());
+            map.setZoom(16);
+            infoWindow.open(map, marker);
+        });
+
+        markers.push(marker);
+    }
+
+    // Função para centralizar o mapa em um marcador específico
+    function focusOnMarker(lat, lng, nome) {
+        const position = new google.maps.LatLng(lat, lng);
+        map.setCenter(position);
+        map.setZoom(16);
+    }
+
+    // Chama a função de inicialização quando a página carrega
+    window.onload = initMap;
+</script>
+
+</body>
+</html>

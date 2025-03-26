@@ -1,0 +1,77 @@
+
+body {
+    background-color: #fff; /* Cor de fundo azul escuro */
+    color: #0A4973;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    color: white;
+}
+
+header .logo img {
+    background: transparent;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem 0 1rem;
+}
+
+/* Estilo do título */
+h1 {
+    text-align: center; /* Centraliza o título */
+    margin: 40px 0 20px; /* Espaço acima e abaixo do título */
+    color: #ffffff; /* Cor do título */
+}
+
+/* Estilo da tabela */
+table {
+    width: 100%; /* Largura total */
+    border-collapse: collapse; /* Remove espaços entre bordas */
+    margin: 20px auto; /* Centraliza a tabela */
+    background-color: #fff; /* Cor de fundo da tabela */
+    border-radius: 10px; /* Cantos arredondados */
+    overflow: hidden; /* Para arredondar os cantos da tabela */
+    border: 1px solid #ffffff; /* Borda da tabela */
+}
+
+/* Estilo do cabeçalho da tabela */
+th {
+    background-color: #0A4973; /* Cor de fundo do cabeçalho */
+    color: #fff; /* Cor do texto do cabeçalho */
+    padding: 12px; /* Espaçamento interno */
+    text-align: center; /* Alinhamento do texto */
+}
+
+/* Estilo das células da tabela */
+td {
+    padding: 12px; /* Espaçamento interno */
+    border-bottom: 1px solid #ddd; /* Linha separadora entre as linhas */
+}
+
+/* Estilo dos agendamentos */
+.agendamento {
+    background-color: #aaf497; /* Fundo verde claro para os agendamentos */
+    color: #333; /* Cor do texto dos agendamentos */
+}
+
+/* Estilo da linha ao passar o mouse */
+tr:hover {
+    background-color: #f2f2f2; /* Cor de fundo ao passar o mouse */
+    transition: background-color 0.3s; /* Transição suave */
+}
+
+/* Estilo para células de cabeçalho e dados na primeira coluna */
+td:first-child,
+th:first-child {
+    text-align: center; /* Alinha o texto ao centro */
+}
+
+/* Margem adicional para a tabela */
+table {
+    margin-top: 20px; /* Espaço acima da tabela */
+    margin-bottom: 40px; /* Espaço abaixo da tabela */
+}

@@ -1,0 +1,347 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: no-repeat center/cover;
+}
+
+/* Logo Background */
+.logoFundo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: #0A4973;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.logoFundo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Wrapper */
+.wrapper {
+    position: absolute;
+    top: 50%;
+    right: 7%;
+    width: 540px;
+    max-width: 70%;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transform: translateY(-50%);
+    padding: 20px;
+}
+
+/* Form Header */
+.form-box h2 {
+    font-size: 3.5em;
+    color: #162938;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Input Box */
+.input-box,
+.input-box-tiny,
+.input-box-phone {
+    position: relative;
+    height: 40px;
+    margin: 20px 0;
+    /* Ajustado para uma margem mais uniforme */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-box {
+    border-bottom: 2px solid #162938;
+    margin-bottom: 2vw;
+}
+
+.input-box-tiny {
+    border-bottom: none;
+    /* Remove a borda inferior */
+}
+
+.input-box-phone {
+    border-bottom: 2px solid #162938;
+    /* Adiciona a borda inferior para consistência */
+}
+
+.input-box label,
+.input-box-tiny label,
+.input-box-phone label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input-box input,
+.ddd-select,
+.input-box-tiny input,
+.input-box-phone input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    color: #162938;
+    font-weight: 600;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label,
+.input-box-tiny input:focus~label,
+.input-box-tiny input:valid~label,
+.input-box-phone input:focus~label,
+.input-box-phone input:valid~label {
+    top: -5px;
+    font-size: 0.8em;
+}
+
+/* Icon */
+.input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 40px;
+    /* Ajustado para corresponder ao tamanho dos campos */
+}
+
+/* DDD and Phone Number */
+.ddd-phone-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente os campos */
+    margin: 0;
+    padding: 0;
+}
+
+.ddd-phone-container .input-box-tiny label {
+    position: absolute;
+    top: -20px; /* Ajuste este valor para subir ou descer o label */
+    left: 5px;
+    transform: translateY(0);
+    font-size: 0.8em; /* Diminui um pouco o tamanho da fonte para se adequar ao DDD */
+    color: #162938;
+    font-weight: 500;
+    margin-bottom: 0;
+    transition: none;
+}
+
+
+.ddd-phone-container .ddd-select {
+    width: 82%;
+    height: 40px; /* Certifique-se de que a altura seja consistente com o campo de telefone */
+    padding: 0 2px; /* Ajuste o padding conforme necessário */
+    border: 2px solid #162938;
+    border-radius: 5px;
+    font-size: 1.2em;
+    color: #162938;
+    font-weight: 600;
+    box-sizing: border-box;
+    margin-right: 10px;
+}
+
+.ddd-phone-container .input-box-phone {
+    flex: 1; /* O campo de telefone ocupa o restante do espaço disponível */
+}
+
+.input-box-phone {
+    height: 40px; /* Certifique-se de que a altura seja consistente com o campo DDD */
+    display: flex;
+    align-items: center;
+}
+
+
+/* Show Password Checkbox */
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    /* Ajuste conforme necessário */
+}
+
+.show-password-container input {
+    margin-right: 10px;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #ff8800;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+/* Login and Register */
+.login-register {
+    font-size: 0.9em;
+    color: #162938;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+    display: flex;
+    justify-content: center;
+    /* Ajustado para centralizar */
+}
+
+.login-register p {
+    margin: 0;
+}
+
+.login-register p a {
+    color: #162938;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-register p a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%;
+        right: 0;
+        padding: 20px;
+    }
+
+
+    .form-box h2 {
+        font-size: 2.5em;
+    }
+
+    .input-box {
+        position: relative;
+        margin-bottom: 40px; /* Espaço extra para garantir que o tooltip não sobreponha o próximo campo */
+    }
+
+
+    .input-box-tiny {
+        position: relative;
+        display: inline-block; /* Manter o DDD na mesma linha */
+    }
+
+    .input-box-phone {
+        height: 50px;
+    }
+
+    .btn {
+        height: 55px;
+    }
+}
+
+
+
+/* Estilo unificado para o tooltip */
+.error-tooltip {
+    display: none;
+    position: absolute;
+    background: #ffffff; /* Cor de fundo do tooltip */
+    color: #000000; /* Cor do texto */
+    border: 1px solid #162938; /* Cor da borda */
+    border-radius: 4px;
+    padding: 8px; /* Ajuste conforme necessário */
+    font-size: 12px; /* Ajuste conforme necessário */
+    font-family: sans-serif, serif;
+    font-weight: bold;
+    max-width: 250px; /* Ajuste conforme necessário */
+    z-index: 1000; /* Garante que o tooltip fique acima dos outros elementos */
+    top: 120%; /* Ajuste para posicionar o tooltip logo abaixo do campo */
+    left: 40%; /* Ajuste para centralizar horizontalmente */
+    box-shadow: 5px 4px 6px rgb(208, 208, 208); /* Sombra opcional */
+}
+
+
+/* Estilo do triângulo */
+.error-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%; /* Posiciona o triângulo acima do tooltip */
+    left: 50%;
+    margin-left: -5px; /* Centraliza o triângulo em relação ao tooltip */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #162938 transparent; /* Triângulo com a mesma cor de fundo do tooltip */
+}
+.password-popup {
+    display: none; /* Oculta o pop-up por padrão */
+    position: fixed;
+    left: -10%;
+    top: 67%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #162938;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 300px; /* Ajuste conforme necessário */
+    padding: 20px;
+    text-align: right;
+    box-sizing: border-box; /* Para incluir padding e border no tamanho total */
+}
+
+.popup-content {
+    position: relative;
+    text-align: center; /* Alinha o texto à esquerda */
+}
+
+.close {
+    cursor: pointer;
+    font-size: 20px;
+    color: #162938;
+}
+
+.popup-content h3 {
+    margin-bottom: 10px; /* Espaço entre o título e o texto */
+}
+
+.popup-content p {
+    margin: 5px 0; /* Espaço entre as linhas */
+}
+.liPop{
+    list-style-type: none;
+}
+

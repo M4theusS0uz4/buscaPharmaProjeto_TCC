@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.nome_item }}</title>
+    <link rel="stylesheet" href="{% static 'css/produto.css' %}">
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+</head>
+
+<body>
+     <header>
+    <div class="logo">
+        <a href="{% url 'home' %}"><img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'busca' %}" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+        
+    <div class="prodDesc">
+        <h1 class="titulo">{{ item.nome_item }}</h1>
+        <h4 id="descricao">Descrição Completa</h4>
+        <br>
+        <p>Componente Ativo: {{ item.comp_ativ_itm }}</p>
+        {% if indicacao and aux_indicacao %}
+            <p>Categoria: {{ indicacao.categoria_remedio }}</p>
+            <p>Precaução: {{ indicacao.precaucao }}</p>
+            <p>Contra Indicação: {{ indicacao.contra_indicacao }}</p>
+            <p>Dosagem maxima adulto: {{ aux_indicacao.dsgm_max_adlt }}</p>
+            <p>Dosagem maxima Criança: {{ aux_indicacao.dsgm_max_crn }}</p>
+        {% endif %}
+           {% if protocolo %}
+            <p>Documentos Necessários:<br><br> {{ protocolo.documentos_necessarios|linebreaksbr}}</p>
+            <p>Exames Necessários:<br><br>  {{ protocolo.exames_necessarios|linebreaksbr}}</p>
+                   <h2 style="color: #ff8800">Remédio alto-custo não é possível o agendamento.</h2>
+                    <h3 style="color: #fff">Exibição: Apenas informações para retirada.</h3>
+               <br>
+                <h4 style="color: white">Voltar para Busca</h4>
+               <br>
+                <a href="{% url 'busca' %}" class="voltar-btn"><ion-icon name="arrow-back-outline" class="botao-grande"></ion-icon>
+                </a>
+                <script>
+        window.onload = function() {
+            const botaoDiv = document.getElementById('divBotao');
+            if (botaoDiv) {
+                botaoDiv.remove();
+            }
+        };
+    </script>
+        {% endif %}
+        <div class="button-container" id="divBotao">
+            <a href="{% url 'localizar_remedio' item.id_item %}" id="localizar"><button id="localizar">Localizar Medicamento</button></a>
+        </div>
+    </div>
+</body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</html>

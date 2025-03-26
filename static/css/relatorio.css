@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    vertical-align: auto;
+}
+
+/* Estilo do cabeçalho */
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    color: white;
+}
+
+header .logo img {
+    background: transparent;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem 0 1rem;
+}
+
+body {
+    background-color: #fff; /* Cor de fundo da página */
+}
+
+.title {
+    font-size: 2rem;
+    color: #0A4970;
+    margin-top: 2rem;
+}
+
+section {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff; /* Fundo da tabela */
+    border: 2px solid #0A4973; /* Borda da tabela */
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd; /* Borda das células */
+}
+
+th {
+    background-color: #0A4973; /* Cor do cabeçalho */
+    color: white; /* Cor do texto do cabeçalho */
+}
+
+tr:hover {
+    background-color: #f2f2f2; /* Cor ao passar o mouse */
+}
+
+a {
+    text-decoration: none; /* Remove sublinhado dos links */
+}

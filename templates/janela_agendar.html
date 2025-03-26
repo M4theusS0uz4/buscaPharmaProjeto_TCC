@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento</title>
+    <link rel="stylesheet" href="{% static 'css/janela_agendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+</head>
+<body>
+ <header>
+    <div class="logo">
+        <a href="{% url 'home' %}"><img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'busca' %}" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+
+    <h1>Agendamento de Horário</h1>
+
+    <section>
+        <div class="modal">
+            <form id="agendar-form">
+                {% csrf_token %}
+                <div class="input-box">
+                    <label>Unidade a ser agendada</label>
+                    <input disabled value="{{ unidade.nome }}">
+                    
+                    <label for="data">Selecione sua Data Desejada</label>
+                    <input type="date" id="data" name="data" required min="{{ today|date:'y-m-d' }}"><br><br>
+
+                    <label for="hora">Selecione seu Horário Desejado ( Selecione a data antes )</label>
+                    <select id="hora" name="hora" required>
+                        <!-- As opções serão preenchidas pelo JavaScript -->
+                    </select><br><br>
+                </div>
+                <div class="btn-container">
+                    <button type="button" class="back-button" onclick="window.history.back();">Voltar</button>
+                    <button type="submit" class="back-button" id="btAgendar">Agendar</button>
+                </div>
+                <span id="spinner" style="display: none;" class="spinner"></span>
+                 <div id="agendar-erro" class="error-message"></div>
+                <div class="info-text">
+    <p class="p">Selecionou a unidade errada? Clique no botão abaixo para voltar e escolher a correta.</p>
+</div>
+            </form>
+        </div>
+    </section>
+ <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        
+        
+        
+        // Função para obter o valor do cookie CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        document.getElementById('data').addEventListener('change', function () {
+            const dataSelecionada = this.value; // Data escolhida pelo usuário
+            const selectHora = document.getElementById('hora');
+            selectHora.innerHTML = ''; // Limpar as opções de horário
+
+            // Faz uma requisição ao backend para pegar os horários ocupados
+            fetch(`/horarios_disponiveis/{{ unidade.id_unidade }}\?data=${dataSelecionada}`)
+                .then(response => response.json())
+                .then(data => {
+                    const abertura = "{{ abertura }}"; // "08:00"
+                    const fechamento = "{{ fechamento }}"; // "18:00"
+                    const horariosOcupados = data.horarios_ocupados;
+
+                    const [aberturaHoras, aberturaMinutos] = abertura.split(':').map(Number);
+                    const [fechamentoHoras, fechamentoMinutos] = fechamento.split(':').map(Number);
+
+                    const aberturaTotalMin = aberturaHoras * 60 + aberturaMinutos;
+                    const fechamentoTotalMin = fechamentoHoras * 60 + (fechamentoMinutos - 0.50);
+
+                      let horariosDisponiveis = false;
+
+                    // Gerar opções de horários de 60 em 60 minutos, considerando os horários ocupados
+                    for (let i = aberturaTotalMin; i <= fechamentoTotalMin; i += 60) {
+                        const horas = Math.floor(i / 60).toString().padStart(2, '0');
+                        const minutos = (i % 60).toString().padStart(2, '0');
+                        const horaFormatada = `${horas}:${minutos}:00`;
+
+                        // Só adicionar horários que não estejam ocupados
+                        if (!horariosOcupados.includes(horaFormatada)) {
+                            const option = document.createElement('option');
+                            option.value = horaFormatada;
+                            option.textContent = horaFormatada;
+                            selectHora.appendChild(option);
+                            horariosDisponiveis = true;
+                        }
+                    }
+                    if (!horariosDisponiveis) {
+                        const option = document.createElement('option');
+                        option.value = ''; // Valor vazio para indicar que não há horários disponíveis
+                        option.textContent = 'Nenhum horário disponível'; // Mensagem informativa
+                        option.disabled = true; // Desabilitar esta opção
+                        selectHora.appendChild(option);
+                    }
+                });
+        });
+
+        // Manipulador de evento para o envio do formulário
+document.getElementById('agendar-form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Evitar o envio padrão do formulário
+
+    const data = document.getElementById('data').value;
+    const hora = document.getElementById('hora').value;
+    const csrfToken = getCookie('csrftoken'); // Obter o token CSRF
+    const mensagemErro = document.getElementById('agendar-erro');
+    mensagemErro.style.display = 'none';
+    mensagemErro.textContent = '';
+    document.getElementById('spinner').style.display = 'inline-block';
+    document.getElementById('btAgendar').disabled = true;
+    // Substitua os 'id_item' e 'id_unidade' pelos valores reais que você tem
+    const id_item = '{{ item.id_item }}';  // Ou como você obtém o ID do item
+    const id_unidade = '{{ unidade.id_unidade }}';  // Ou como você obtém o ID da unidade
+
+    // Fazer a requisição AJAX para agendar
+    fetch(`/agendar/${id_item}/${id_unidade}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken, // Incluir o token CSRF nos cabeçalhos
+        },
+        body: JSON.stringify({ data: data, hora: hora }), // Enviar dados como JSON
+    })
+    .then(response => {
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('btAgendar').disabled = false;
+        if (response.ok) {
+            return response.json(); // Processar a resposta como JSON
+        } else {
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || 'Erro desconhecido');
+            });
+        }
+    })
+     .then(data => {
+        // Exibir mensagem de sucesso
+        mensagemErro.style.display = 'block';
+        mensagemErro.textContent = data.message;
+        document.getElementById('btAgendar').disabled = true;
+        setTimeout(() => {
+        // Oculta a mensagem
+        mensagemErro.style.display = "none";
+
+        // Redireciona para a página de agendamentos
+        window.location.href = "/horarios_agendados";  // Substitua "/agendamentos" pela URL correta
+    }, 3000);
+    })
+    .catch(error => {
+        // Exibir mensagem de erro
+        mensagemErro.style.display = 'block';
+        mensagemErro.textContent = error.message;
+    });
+});
+    </script>
+</body>
+</html>

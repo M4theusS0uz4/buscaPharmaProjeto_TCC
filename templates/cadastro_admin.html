@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Admin</title>
+  <link rel="stylesheet" href="{% static 'css/cadastro_admin.css' %}">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+     <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma" />
+    </div>
+  </header>
+
+
+  <div class="fundoShow"></div>
+
+  <div class="wrapper">
+    <div class="form-box Register">
+      <h2>Cadastro Admin</h2>
+      <div class="error-container" id="error-container"></div> <!-- Mensagem de erro -->
+
+      <form action="{% url 'cadastro_admin' id_unidade username_admin %}" method="POST" id="form"> <!-- Ajustar a ação do formulário -->
+        {% csrf_token %}
+        <!-- Campo Username -->
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+          <input id="username" type="text" name="username">
+          <label>Username</label>
+          <div id="username-error" class="error-tooltip"></div>
+        </div>
+        
+          <div class="input-box">
+        <span class="icon"><ion-icon name="email-outline"></ion-icon></span>
+        <input id="email" type="text" name="email">
+        <label>Email</label>
+          <div id="email-error" class="error-tooltip"></div>
+      </div>
+        <!-- Campo Nome Completo -->
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+          <input type="text" id="nome_completo" name="nome_completo">
+          <label>Nome Completo</label>
+          <div id="nome-completo-error" class="error-tooltip"></div>
+        </div>
+
+        <!-- Campo Senha -->
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" id="password" name="password">
+          <label>Senha</label>
+          <div id="password-error" class="error-tooltip"></div>
+        </div>
+
+        <!-- Campo Confirmar Senha -->
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <input type="password" id="confirm-password" name="password2">
+          <label>Confirmar Senha</label>
+          <div id="confirm-password-error" class="error-tooltip"></div>
+        </div>
+
+        <!-- Checkbox para mostrar/ocultar senha -->
+        <div class="show-password-container">
+          <input type="checkbox" id="show-password">
+          <label for="show-password">Mostrar Senha</label>
+        </div>
+
+        <button type="submit" class="btn" id="btn-registrar">Registrar admin</button>
+
+        <div class="link-container">
+          <a href="{% url 'home_admin_geral' username_admin %}">Voltar</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'js/cadastro_admin.js' %}"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

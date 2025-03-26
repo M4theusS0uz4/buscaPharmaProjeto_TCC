@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+  <link rel="stylesheet" href="{% static 'css/cadastro_usuario.css' %}">
+</head>
+
+<body>
+<div class="logoFundo">
+  <img src="{% static 'img/Logo_Login.png' %}" alt="Logo">
+</div>
+
+<div class="wrapper">
+  <div class="form-box Register">
+    <h2>Cadastre-se</h2>
+    <form action="{% url 'cadastro' %}" method="POST" id="form">
+        {% csrf_token %}
+      <div class="input-box">
+        <span class="icon"><ion-icon name="email-outline"></ion-icon></span>
+        <input id="email" type="text" name="email">
+        <label>Email</label>
+          <div id="email-error" class="error-tooltip"></div>
+      </div>
+      <div class="input-box">
+        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+        <input id="nome" type="text" name="username">
+        <label>Nome Completo</label>
+          <div id="nome-error" class="error-tooltip"></div>
+      </div>
+
+      <div class="input-box">
+        <span class="icon"><ion-icon name="id-card-outline"></ion-icon></span>
+        <input id="cpf" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" type="text" name="cpf" maxlength="14">
+        <label>CPF</label>
+        <div id="cpf-error" class="error-tooltip"></div>
+      </div>
+
+      <div class="ddd-phone-container">
+        <div class="input-box-tiny">
+          <label for="ddd-select">DDD</label>
+          <select id="ddd-select" class="ddd-select" name="ddd">
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="24">24</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="51">51</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="61">61</option>
+            <option value="62">62</option>
+            <option value="63">63</option>
+            <option value="64">64</option>
+            <option value="65">65</option>
+            <option value="66">66</option>
+            <option value="67">67</option>
+            <option value="68">68</option>
+            <option value="69">69</option>
+            <option value="71">71</option>
+            <option value="73">73</option>
+            <option value="74">74</option>
+            <option value="75">75</option>
+            <option value="77">77</option>
+            <option value="79">79</option>
+            <option value="81">81</option>
+            <option value="82">82</option>
+            <option value="83">83</option>
+            <option value="84">84</option>
+            <option value="85">85</option>
+            <option value="86">86</option>
+            <option value="87">87</option>
+            <option value="88">88</option>
+            <option value="89">89</option>
+            <option value="91">91</option>
+            <option value="92">92</option>
+            <option value="93">93</option>
+            <option value="94">94</option>
+            <option value="95">95</option>
+            <option value="96">96</option>
+            <option value="97">97</option>
+            <option value="98">98</option>
+            <option value="99">99</option>
+          </select>
+        </div>
+
+        <div class="input-box">
+          <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
+          <input type="text" id="phone" name="telefone" maxlength="10">
+          <label>Telefone</label>
+          <div id="phone-error" class="error-tooltip"></div>
+        </div>
+      </div>
+
+      <div class="input-box">
+        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+        <input type="password" id="password" name="password" onclick="showPopup()">
+        <label>Senha</label>
+        <div id="password-error" class="error-tooltip"></div> <!-- Div para exibir o erro -->
+      </div>
+      <div class="input-box">
+        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+        <input type="password" id="confirm-password" name="password2">
+        <label>Confirmar Senha</label>
+        <div  id="confirm-password-error" class="error-tooltip"></div> <!-- Div para exibir o erro -->
+      </div>
+
+    <div id="password-popup" class="password-popup">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <div class="popup-content">
+        <p>A senha deve conter pelo menos:</p>
+        <ul>
+            <li class="liPop">8 caracteres</li>
+            <li class="liPop">1 letra maiúscula</li>
+            <li class="liPop">1 letra minúscula</li>
+            <li class="liPop">1 caractere especial</li>
+        </ul>
+    </div>
+</div>
+        
+
+      <!-- Checkbox para mostrar/ocultar senha -->
+      <div class="show-password-container">
+        <input type="checkbox" id="show-password">
+        <label for="show-password">Mostrar Senha</label>
+      </div>
+
+      <button type="submit" class="btn" id="btn-registrar">Registrar</button>
+
+      <div class="login-register">
+        <p>Já possui uma conta? <a href={% url 'login' %}>Login</a></p>
+      </div>
+    </form>
+      
+  </div>
+</div>
+
+
+<script src="{% static 'js/cadastro_usuario.js' %}"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons/.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons/.js"></script>
+</body>
+
+</html>

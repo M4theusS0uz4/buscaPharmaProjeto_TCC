@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Agendamentos Realizados</title>
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/relatorio.css' %}">
+</head>
+<body>
+   <header>
+    <div class="logo">
+       <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home_admin' id_admin %}">Agendamentos</a></li>
+            <li><a href="{% url 'relatorio_produtos_interesse' id_unidade id_admin %}">Relatório de Produtos com Mais Interesse</a></li>
+            <li><a href="{% url 'relatorio_agendamentos_realizados' id_unidade id_admin %}" class="active">Relatório de Agendamentos Realizados</a></li>
+        </ul>
+    </nav>
+</header>
+ <div class="title">
+        <h1>Agendamentos Realizados</h1>
+    </div>
+    <h1></h1>
+    <section id="tabela">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome do Cliente</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Produto/Serviço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agendamento in agendamentos %}
+            <tr class="agendamento"> <!-- Adicione a classe 'agendamento' aqui -->
+                <td>{{ agendamento.cpf.first_name }} {{ agendamento.cpf.last_name }}</td>
+                <td>{{ agendamento.data|date:"d/m/Y" }}</td>
+                <td>{{ agendamento.hora|time:"H:i" }}</td>
+                <td>{{ agendamento.id_item.nome_item }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     </section>
+</body>
+</html>

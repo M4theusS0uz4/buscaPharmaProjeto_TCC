@@ -1,0 +1,192 @@
+/* Reseta estilos básicos e define background */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+body {
+    margin-top: 7%; /* Diminui a margem superior para não ficar muito afastado */
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column; /* Altera para coluna para melhor alinhamento */
+    align-items: center; /* Centraliza itens horizontalmente */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #0a4873;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Para garantir que o cabeçalho fique sobre outros elementos */
+}
+
+header .logo img {
+    background: white;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin-right: 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header .auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+header .auth-buttons button {
+    margin-left: 10px;
+    padding: 5px 15px;
+    background-color: #ffcc00;
+    border-radius: 10px;
+    border: none;
+    color: black;
+    cursor: pointer;
+}
+
+/* Ajustes no mapa */
+#map {
+    width: 97%; /* Ocupa toda a largura disponível */
+    height: 500px; /* Altura fixa para o mapa */
+    border-radius: 10px/* Margem superior para separar do cabeçalho */
+}
+
+/* Estiliza a seção das farmácias */
+/* Estilo para a seção de farmácias */
+.farmacias {
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 4px #0a3070; /* Sombra leve para destaque */
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+/* Título da seção */
+.farmacias h2 {
+    color: #0a4072; /* Cor de destaque para o título */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo para cada item da lista de farmácias */
+.farmacias ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Estilo para cada item da lista de farmácias */
+.farmacias ul li {
+    font-size: 16px;
+    color: #333333;
+    margin: 10px 0;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px gray;
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Adiciona transição para o efeito de hover */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.farmacias ul li:hover {
+    transform: scale(1.02); /* Aumenta o tamanho da div ao passar o mouse */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); /* Aumenta a sombra no hover */
+}
+
+/* Estilo para o link e as informações da farmácia */
+.farmacias ul li a {
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1; /* Expande o link para ocupar mais espaço */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Reduz o tamanho do botão "Agendar" */
+.agendar-btn {
+    padding: 6px 10px; /* Ajuste de tamanho */
+    font-size: 14px; /* Tamanho menor para o texto */
+    background-color: #ff9900;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap; /* Evita quebra de linha no botão */
+}
+
+.agendar-btn:hover {
+    background-color: #cc7a00;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Estilo para o status "Aberto" */
+.status-aberto {
+    color: #0a4070;
+}
+
+a:hover {
+    text-decoration: underline; /* Adiciona o sublinhado apenas ao passar o mouse */
+
+}
+
+/* Estilo para o botão de agendamento */
+/* Estilo para a mensagem informativa */
+/* Estilo aprimorado para a mensagem informativa */
+.aviso-agendamento {
+    background-color: #eaf4fc; /* Azul claro para destaque */
+    padding: 15px 20px; /* Mais espaçamento para um visual mais "arejado" */
+    margin: 20px auto; /* Margem superior e inferior maiores */
+    border-left: 5px solid #0a4072; /* Borda esquerda colorida para destaque */
+    border-radius: 8px;
+    max-width: 97%;
+    text-align: center;
+    font-size: 15px;
+    color: #0a4072; /* Cor de texto para combinar com o tema */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ícone informativo */
+.aviso-agendamento::before {
+    content: 'ℹ️'; /* Símbolo informativo */
+    font-size: 30px;
+    color: #ff9900;
+}
+

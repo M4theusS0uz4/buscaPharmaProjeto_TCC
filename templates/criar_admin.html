@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Admin</title>
+</head>
+<style>
+        /* Estilos para as mensagens */
+        .mensagem-success {
+            color: green; /* Cor verde para sucesso */
+        }
+        .mensagem-error {
+            color: red; /* Cor vermelha para erro */
+        }
+    </style>
+<body>
+    <h2>Criar Novo Admin</h2>
+
+    <div id="mensagem"></div>  <!-- Div para exibir mensagens -->
+
+    <form method="post" id="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Criar Admin</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();  // Impede o envio padrão do formulário
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'  // Inclui o token CSRF
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const mensagemDiv = document.getElementById('mensagem');
+                if (data.success) {
+                    mensagemDiv.textContent = data.mensagem;// Exibe a mensagem de sucesso
+                } else {
+                    mensagemDiv.textContent = data.mensagem;  // Exibe mensagem de erro
+                }
+            });
+        });
+    </script>
+</body>
+</html>

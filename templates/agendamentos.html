@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {% load static %}
+    <link rel="stylesheet" href={% static '/css/agendamentos.css' %} />
+      <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+    <title>Agendamentos</title>
+  </head>
+  <body>
+   <header>
+    <div class="logo">
+        <a href="{% url 'home' %}"><img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'busca' %}" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>                    
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+    <div class="title">
+      <h1>Meus Agendamentos</h1>
+    </div>
+   <section id="cards">
+        {% if agendamentos_e_endereco %}
+          {% for item in agendamentos_e_endereco %}
+              <div class="grid-item proced" id="agendamento-{{ item.agendamento.id_agendamento }}">
+                  <h2>Interesse no medicamento {{ item.agendamento.id_item.nome_item }}</h2>
+                  <p>Data: {{ item.agendamento.data|date:"d/m/Y" }}</p>
+                    <p> Horário: {{ item.agendamento.hora | time:"H:i" }}</p>
+              <p>Endereço da Unidade: {{ item.endereco }}</p>
+              <!-- Formulário para cancelar o agendamento -->
+                <form  class="cancel-form" method="POST" data-id="{{ item.agendamento.id_agendamento }}">
+                    {% csrf_token %}
+                    <button type="submit" class="cancel-btn">Cancelar Agendamento</button>
+                </form>
+              </div>
+
+          {% endfor %}
+
+      {% else %}
+          <p class="nenhum">Você não tem agendamentos no momento.</p>
+            <script>
+            const secao = document.getElementById('cards').style.gridTemplateColumns ='none';
+            </script>
+      {% endif %}
+      </section>
+  <div id="message-box"></div>
+    <!-- Modal de Confirmação -->
+<div id="confirm-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="close-modal">&times;</span>
+        <h2>Confirmação</h2>
+        <p>Tem certeza de que deseja cancelar este agendamento?</p>
+        <button id="confirm-cancel">Cancelar</button>
+        <button id="cancel-cancel">Manter Agendamento</button>
+    </div>
+</div>
+  <script>
+    document.querySelectorAll('.cancel-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();  // Evitar o redirecionamento padrão
+
+        const agendamentoId = this.dataset.id;
+        const csrfToken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Mostrar o modal de confirmação
+        const modal = document.getElementById('confirm-modal');
+        modal.style.display = 'block';
+
+        // Capturar os botões do modal
+        const confirmCancelButton = document.getElementById('confirm-cancel');
+        const cancelCancelButton = document.getElementById('cancel-cancel');
+        const closeModalButton = document.getElementById('close-modal');
+
+        // Ao confirmar, enviar a requisição de cancelamento
+        confirmCancelButton.onclick = function() {
+            fetch(`/cancelar_agendamento/${agendamentoId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageBox = document.getElementById('message-box');
+
+                if (data.status === 'success') {
+                    // Remover o agendamento da tela
+                    document.getElementById(`agendamento-${agendamentoId}`).remove();
+
+                    // Exibir mensagem de sucesso
+                    messageBox.innerHTML = `<div class="message success">${data.message}</div>`;
+                    setTimeout(() => { messageBox.innerHTML = ''; }, 2000);
+
+                    // Verificar se ainda há agendamentos na tela
+                    const remainingAgendamentos = document.querySelectorAll('.grid-item.proced');
+                    if (remainingAgendamentos.length === 0) {
+                        document.getElementById('cards').innerHTML = '<p>Você não tem agendamentos no momento.</p>';
+                    }
+                } else {
+                    // Exibir mensagem de erro
+                    messageBox.innerHTML = `<div class="message error">${data.message}</div>`;
+                }
+
+                // Fechar o modal após a ação
+                modal.style.display = 'none';
+            });
+        };
+
+        // Fechar o modal ao clicar no botão "Não"
+        cancelCancelButton.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        // Fechar o modal ao clicar no "x"
+        closeModalButton.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        // Fechar o modal ao clicar fora dele
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+    });
+});
+</script>
+  </body>
+</html>

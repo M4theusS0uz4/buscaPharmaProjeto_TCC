@@ -1,0 +1,127 @@
+
+header  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    background: #0A4973;
+}
+header .logo img {
+    background: transparent;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem 0 1rem;
+}
+
+/* Estilo para aumentar o tamanho dos campos de seleção e área de texto */
+select,
+textarea,
+input[type="time"],
+input[type="date"] {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 1.2em;
+    display: block;
+    /* Garantir que o rótulo fique em cima do campo */
+}
+
+button[type="submit"] {
+    margin: 0px 20px;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border: 2px solid #ff8800;
+    border-radius: 5px;
+    background-color: #ff8800;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+button[type="submit"]:hover {
+    background-color: #0A4973;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0a3070;
+    /* Mudança de cor ao passar o mouse */
+}
+
+.form-container {
+    max-width: max-content;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0a4070;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra para dar destaque */
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    font-weight: bold;
+    /* Negrito para maior destaque */
+}
+
+.date-input {
+    font-size: 1.2em;
+    padding: 10px 10px 10px 45px;
+    /* Espaço para o ícone */
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    color: #888;
+}
+
+h1#criar {
+    color: #ffffff;
+    margin: 5px;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    resize: none;
+    /* Impede o redimensionamento da caixa de texto */
+    width: 100%;
+    /* Para ajustar a largura da caixa de texto ao contêiner */
+    height: auto;
+    /* Para altura automática */
+    box-sizing: border-box;
+    /* Inclui o padding e a borda no cálculo da largura e altura total */
+}
+
+.no-resize {
+    resize: none;
+    width: 500px;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.form-container a {
+    text-decoration: none;
+    color: #ff8800;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin-top: 10px;
+}

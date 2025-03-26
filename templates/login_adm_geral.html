@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login_admin_geral.css' %}">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <div class="form-box login">
+            <h2>Admin Geral</h2>
+            <div id="mensagem" style="color: red;"></div> <!-- Div para exibir mensagens -->
+            <form action="{% url 'login_admin_geral' %}" method="post" id="form">
+                {% csrf_token %}
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <input type="text" required placeholder="Digite seu Username" id="username" name="username">
+                </div>              
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua Senha">
+                </div>
+                <div class="select">
+                    <div class="show-password-container">
+                        <input type="checkbox" id="show-password">
+                        <label for="show-password">Mostrar Senha</label>
+                    </div>
+                </div>
+                <div class="login" style="font-size: larger;">
+                    <button type="submit" class="btn"><b>Login</b></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        mostrarSenhaCheck = document.getElementById('show-password')
+        senhaInput = document.getElementById('password')
+        mostrarSenhaCheck.addEventListener('change', function () {
+            const type = this.checked ? 'text' : 'password';
+            senhaInput.type = type;
+        });
+
+        const form = document.getElementById('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Impede o envio padrão do formulário
+
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'  // Inclui o token CSRF
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const mensagemDiv = document.getElementById('mensagem');
+            if (data.success) {
+                // Redireciona para a URL de sucesso
+                window.location.href = data.url; // Redireciona para home_admin_geral
+            } else {
+                mensagemDiv.textContent = data.mensagem;  // Exibe mensagem de erro
+            }
+        });
+    });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

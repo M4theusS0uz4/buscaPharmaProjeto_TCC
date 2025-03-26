@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca Pharma</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+</head>
+<header>
+    <div class="logo">
+       <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}" class="active">Home</a></li>
+            <li><a href="{% url 'busca' %}">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+<body>
+    <div class="search-container" style="background-color: #ffffff">
+        <input type="text" placeholder="Insira o nome do medicamento" class="search-input" id="search-bar">
+        <button id="search-btn">Buscar Remédio</button>
+    </div>
+    <section class="notice">
+        <div class="title">
+            <h1>Saúde ao alcance de todos!</h1>
+            <div>
+                <p class="paragrafh">
+                    A promoção da saúde deve ser um direito universal, acessível a todas as pessoas, independentemente de sua condição socioeconômica. Isso envolve garantir acesso a serviços de saúde de qualidade, informações claras e ações preventivas que promovam hábitos saudáveis. A educação em saúde é fundamental para empoderar indivíduos a tomarem decisões informadas sobre seu bem-estar. Além disso, a colaboração entre governos, instituições de saúde e a comunidade é essencial para eliminar barreiras e garantir que todos possam desfrutar de uma vida saudável. Assim, trabalhamos para construir uma sociedade mais justa e saudável para todos.
+                </p>
+            </div>
+        </div>
+        <img src="{% static 'img/Enfermeiro1-.png' %}" alt="imagem" id="img">
+    </section>
+    <h1 id="eventos">Eventos em Unidades</h1>
+    {% if eventos %}
+    <section>
+    {% for evento in eventos %}
+    <div class="proced">
+        <div>
+       <iframe
+        src="https://www.google.com/maps/embed/v1/place?key=CHAVEAPI&q={{ evento.latitude }},{{ evento.longitude }}&zoom=18"
+    width="100%"
+    height="400"
+    frameborder="0"
+    style="border:0;"
+    allowfullscreen>
+</iframe>
+        <h2>Produto - {{ evento.titulo }}</h2>
+            <br>
+            <div class="coluna">
+                <h3>Data de Início:{{ evento.data_inicio|date:"d/m/Y" }}</h3><br>
+                <h3>Data de Termino:{{ evento.data_termino|date:"d/m/Y" }}</h3><br>
+            </div>
+        </div>
+        <p>
+            <b>Descrição Evento:</b> <br> {{ evento.descricao }}
+        </p>
+    <br>
+    <p><b>Localização:</b> {{evento.id_unidade.nome }}</p>
+    </div>
+    {% endfor %}
+    </section>
+    {% else %}
+        <h4 id="semEvento">Nenhum evento sendo realizado.</h4>
+    {% endif %}
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function (event) {
+            event.preventDefault(); // Evita o comportamento padrão do botão
+            const searchQuery = document.getElementById('search-bar').value;
+            if (searchQuery) {
+                localStorage.setItem('medicamentoBusca', searchQuery); // Armazena o valor no localStorage
+                window.location.href = "{% url 'busca' %}"; // Redireciona para a página de busca
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Evento</title>
+    <link rel="stylesheet" href="{% static 'css/home_admin_geral.css' %}">
+    <link rel="stylesheet" href={% static 'css/criar_evento.css' %}>
+</head>
+
+<body style="color: white">
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma" />
+        </div>
+
+    </header>
+    <h1 id="criar" style="color: #0a3070">Preencha os Dados do Evento</h1>
+    <section class="form-container">
+        <div id="error-message" class="error-message" style="display:none;"></div> <!-- Div para mensagem de erro -->
+        <form method="POST" action="{% url 'salvar_evento' username %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="descricao_evento">Descrição do Evento:</label>
+                <textarea id="descricao_evento" name="descricao_evento" rows="6" class="no-resize"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="data_inicio">Data de início:</label>
+                <div style="position: relative;">
+                    <input type="date" id="data_inicio" name="data_inicio" class="date-input" required>
+                    <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="data_termino">Data de término:</label>
+                <div style="position: relative;">
+                    <input type="date" id="data_termino" name="data_termino" class="date-input" required>
+                    <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_item">Selecione o Item:</label>
+                <select id="id_item" name="id_item" required>
+                    {% if itens %}
+                    {% for item in itens %}
+                    <option>{{ item.nome_item }}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Criar Evento</button>
+            </div>
+            <p>Para retornar à home sem adicionar nenhum evento clique no link abaixo</p>
+            <a href="{% url 'home_admin_geral' username %}">Voltar para Home</a>
+        </form>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        const form = document.querySelector('form');
+        const errorMessageDiv = document.getElementById('error-message');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            errorMessageDiv.style.display = 'none'; // Resetar mensagem de erro
+            const formData = new FormData(form);
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                window.location.href = result.url; // Redirecionar em caso de sucesso
+            } else {
+                errorMessageDiv.textContent = result.mensagem; // Mostrar mensagem de erro
+                errorMessageDiv.style.display = 'block'; // Exibir o div de erro
+            }
+        });
+    </script>
+</body>
+
+</html>

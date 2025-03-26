@@ -1,0 +1,216 @@
+/* Estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid #e0e0e0;
+    width: 900px; /* Define largura fixa */
+    max-width: 100%; /* Responsivo em telas menores */
+    background-color: #0a4072;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    color: white;
+}
+
+h1 {
+    color: white;
+    font-size: 4.5em;
+    margin-top: 20px;
+    text-align: center;
+}
+
+form {
+    font-size: larger;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    text-align: justify;
+    padding: 10px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+/* Estilo dos inputs e selects */
+.input-box input,
+.input-box select {
+    width: 100%;
+    height: 45px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    border-color: #ff8800;
+    outline: none;
+}
+
+/* Estilo do select específico */
+.input-box select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ff8800' d='M2 0L0 2h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 10px 10px;
+    cursor: pointer;
+}
+
+.input-box {
+    position: relative;
+    width: 600px;
+}
+
+.input-box:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+/* Estilo do botão */
+.btn {
+    margin: 0 20px;
+    padding: 5px 15px; /* Reduzir o padding */
+    height: 40px; /* Definir altura exata */
+    text-align: center;
+    font-size: 1em; /* Ajuste para adequar o texto */
+    cursor: pointer;
+    border: 2px solid #ff8800;
+    border-radius: 5px;
+    background-color: #ff8800;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+    width: 500px;
+}
+
+.btn:hover {
+    background-color: #0A4973;
+}
+
+/* Estilo da mensagem de erro */
+.error-message {
+    display: none;
+    position: relative;
+    background: #ffffff; /* Cor de fundo branca para destaque */
+    color: #000000; /* Cor do texto */
+    border: 1px solid #162938; /* Cor da borda */
+    border-radius: 4px;
+    padding: 15px; /* Aumenta o padding para destacar mais */
+    font-size: 14px; /* Ajuste conforme necessário */
+    font-family: sans-serif, serif;
+    font-weight: bold;
+    width: 600px; /* Define largura fixa para a mensagem */
+    text-align: center;
+    z-index: 1000;
+    margin-top: 20px; /* Espaçamento adicional */
+}
+
+label {
+    display: block;
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+/* Estilo do spinner */
+.spinner {
+    border: 2px solid rgb(253, 135, 0);
+    border-top: 2px solid #ffffff; /* Cor do topo do spinner */
+    border-radius: 50%;
+    width: 70px; /* Tamanho do spinner */
+    height: 70px; /* Tamanho do spinner */
+    animation: spin 1s linear infinite; /* Animação do spinner */
+    margin-top: 4px; /* Espaço entre o spinner e o texto */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* Estilo do texto informativo */
+.info-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.1em;
+    color: #ffffff;
+}
+
+/* Estilo do botão Voltar */
+.button-container {
+    display: flex;
+    flex-direction: column; /* Altera para coluna */
+    justify-content: center;
+    align-items: center; /* Centraliza o botão */
+    margin-top: 10px;
+}
+
+.back-button {
+    background-color: #ff8800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 200px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px; /* Adiciona margem superior ao botão */
+}
+
+.back-button:hover {
+    background-color: #0a4072;
+    color: #ffffff;
+    border: 1px #ff8800 solid;
+}
+
+.p {
+    color: #ff8800;
+    font-size: 16px;
+}
+

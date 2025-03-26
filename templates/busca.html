@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicamentos</title>
+    <link rel="stylesheet" href="{% static 'css/universal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/busca.css' %}">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}"><img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'busca' %}" class="active">Medicamentos</a></li>
+        </ul>
+    </nav>
+    <div class="auth-buttons">
+        {% if request.user.is_authenticated %}
+            <!-- Ícone de usuário com opções de perfil e logout -->
+            <div class="user-icon">
+                <img src="{% static 'img/userIcon.png' %}" alt="Usuário" class="icon"> <!-- Adicione a imagem do ícone de usuário -->
+                <div class="user-menu">
+                    <p class="pop">Olá, {{ request.user.first_name.split.0}}!</p><br>                    
+                    <a href="{% url 'horarios_agendados' %}" class="pop">Meus Agendamentos</a><br>
+                    <a href="{% url 'editar_perfil_usuario' %}" class="pop">Editar Perfil</a><br>
+                    <a href="{% url 'logout_usuario' %}" class="pop">Sair</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Botões de cadastro e login -->
+            <button class="register-btn"><a href="{% url 'cadastro' %}">Cadastrar-se</a></button>
+            <button class="login-btn"><a href="{% url 'login' %}">Entrar</a></button>
+        {% endif %}
+    </div>
+</header>
+
+    <!-- Barra de Pesquisa -->
+    <div class="search-container">
+        <form method="POST" action="{% url 'busca' %}">
+            {% csrf_token %}
+            <input type="text" name="busca" placeholder="Busque o nome do medicamento" class="search-input" id="search-bar">
+            <button type="submit" class="btnSearch" id="search-btn">Buscar</button>
+        </form>
+    </div>
+<div class="instruction-text">
+    <p>
+        Clique no nome do medicamento para mais informações. Você pode navegar pelas páginas e usar a busca para encontrar medicamentos específicos.
+    </p>
+</div>
+
+    <div class="container">
+        <table class="responsive-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Princípio Ativo</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                {% for item in itens %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detalhes_item' item.id_item %}">{{ item.nome_item }}</a>
+                    </td>
+                    <td>{{ item.comp_ativ_itm }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">Nenhum item encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="pagination-container" class="pagination"></div>
+
+    <script>
+        function toggleDropdown(event) {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            event.stopPropagation(); // Evita que o clique no dropdown feche-o
+        }
+
+        // Fecha o dropdown ao clicar fora
+        document.addEventListener('click', function() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.style.display = 'none';
+        });
+
+        const tableData = {{ itens_json|safe }}; // Usa a variável do contexto
+        const itemsPerPage = 30; // Quantidade de itens por página
+        let currentPage = 1;
+        let totalPages = Math.ceil(tableData.length / itemsPerPage); // Inicializa totalPages
+
+        function createRow(rowData) {
+            return `<tr>
+                        <td>
+                            <a href="/busca/medicamento/${rowData.id_item}">${rowData.nome_item}</a>
+                        </td>
+                        <td>${rowData.comp_ativ_itm}</td>
+                    </tr>`;
+        }
+
+        function renderTable(data, page = 1) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = data.slice(startIndex, endIndex);
+            const tableBody = document.getElementById('table-body');
+            tableBody.innerHTML = pageData.map(createRow).join('');
+            renderPagination(data.length); // Atualiza a paginação
+        }
+
+        function renderPagination(dataLength) {
+            const paginationContainer = document.getElementById('pagination-container');
+            totalPages = Math.ceil(dataLength / itemsPerPage); // Atualiza totalPages
+            paginationContainer.innerHTML = ''; // Limpa a paginação anterior
+
+            // Adiciona o botão "1" (sempre aparece)
+            const firstButton = document.createElement('button');
+            firstButton.innerText = '1';
+            firstButton.classList.add('page-btn');
+            if (currentPage === 1) {
+                firstButton.classList.add('active');
+            }
+            firstButton.addEventListener('click', function () {
+                currentPage = 1;
+                renderTable(tableData, currentPage);
+            });
+            paginationContainer.appendChild(firstButton);
+
+            // Adiciona reticências se necessário
+            if (currentPage >= 4) {
+                const ellipsis = document.createElement('span');
+                ellipsis.innerText = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+
+            let startPage, endPage;
+
+            if (totalPages <= 5) {
+                startPage = 2;
+                endPage = totalPages;
+            } else {
+                startPage = Math.max(2, currentPage - 2);
+                endPage = Math.min(totalPages, currentPage + 2);
+                if (endPage - startPage < 4) {
+                    startPage = Math.max(2, endPage - 4);
+                }
+            }
+
+            // Adiciona botões de página
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.classList.add('page-btn');
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', function () {
+                    currentPage = i;
+                    renderTable(tableData, currentPage);
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Adiciona reticências se necessário
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.innerText = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+
+            // Adiciona o botão da última página
+            if (endPage < totalPages) {
+                const lastButton = document.createElement('button');
+                lastButton.innerText = totalPages;
+                lastButton.classList.add('page-btn');
+                if (currentPage === totalPages) {
+                    lastButton.classList.add('active');
+                }
+                lastButton.addEventListener('click', function () {
+                    currentPage = totalPages;
+                    renderTable(tableData, currentPage);
+                });
+                paginationContainer.appendChild(lastButton);
+            }
+        }
+
+        // Inicializa a tabela com os dados da view
+        renderTable(tableData, currentPage);
+
+        function pesquisar(pesquisa) {
+            const filter = pesquisa.toLowerCase();
+            const filteredData = tableData.filter(item =>
+                item.nome_item.toLowerCase().includes(filter) ||
+                item.comp_ativ_itm.toLowerCase().includes(filter)
+            );
+            currentPage = 1; // Reseta para a primeira página
+            renderTable(filteredData, currentPage); // Renderiza com dados filtrados
+        }
+
+        // Filtro de busca de medicamentos
+        document.getElementById('search-bar').addEventListener('keyup', function () {
+            pesquisar(this.value)
+        });
+
+        // Quando a página de busca carregar
+        document.addEventListener("DOMContentLoaded", () => {
+            const searchQuery = localStorage.getItem('medicamentoBusca'); // Obtém o valor armazenado
+            if (searchQuery) {
+                document.getElementById('search-bar').value = searchQuery;
+                pesquisar(searchQuery)
+                localStorage.removeItem('medicamentoBusca');
+            }
+        });
+    </script>
+</body>
+
+</html>
+ 

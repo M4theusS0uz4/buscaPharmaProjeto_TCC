@@ -1,0 +1,284 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #ffffff;
+    background-size: cover;
+    background-position: center;
+}
+
+header .logo {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 3;
+    /* Certifique-se de que esteja acima do fundo */
+}
+
+header .logo img {
+    background: transparent;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem;
+    /* Removido o padding lateral duplicado */
+}
+
+
+.fundoShow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #0A4973;
+    z-index: 1;
+    /* Menor que o da logo */
+}
+
+
+
+/* Wrapper */
+.wrapper {
+    position: absolute;
+    top: 50%;
+    right: 36%;
+    width: 540px;
+    max-width: 70%;
+    height: 80%;
+    background: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transform: translateY(-50%);
+    padding: 20px;
+}
+
+/* Form Header */
+.form-box h2 {
+    font-size: 3.5em;
+    color: #162938;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Input Box */
+.input-box {
+    position: relative;
+    height: 40px;
+    margin: 30px 0;
+    /* Ajustado para uma margem mais uniforme */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 2px solid #162938;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    color: #162938;
+    font-weight: 600;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px;
+    font-size: 0.8em;
+}
+
+/* Icon */
+.input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 40px;
+    /* Ajustado para corresponder ao tamanho dos campos */
+}
+
+/* Show Password Checkbox */
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    /* Ajuste conforme necessário */
+}
+
+.show-password-container input {
+    margin-right: 10px;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #ff8800;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+/* Login and Register */
+.login-register {
+    font-size: 0.9em;
+    color: #162938;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+    display: flex;
+    justify-content: center;
+    /* Ajustado para centralizar */
+}
+
+.login-register p {
+    margin: 0;
+}
+
+.login-register p a {
+    color: #162938;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-register p a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%;
+        right: 0;
+        padding: 20px;
+    }
+
+    .form-box h2 {
+        font-size: 2.5em;
+    }
+
+    .input-box {
+        height: 50px;
+    }
+
+    .btn {
+        height: 55px;
+    }
+}
+
+.error-tooltip {
+    display: none;
+    position: absolute;
+    background: #ffffff;
+    /* Cor de fundo do tooltip */
+    color: #000000;
+    /* Cor do texto */
+    border: 1px solid #162938;
+    /* Cor da borda */
+    border-radius: 4px;
+    padding: 8px;
+    /* Ajuste conforme necessário */
+    font-size: 12px;
+    /* Ajuste conforme necessário */
+    font-family: sans-serif, serif;
+    font-weight: bold;
+    max-width: 250px;
+    /* Ajuste conforme necessário */
+    z-index: 1000;
+    /* Garante que o tooltip fique acima dos outros elementos */
+    top: 120%;
+    /* Ajuste para posicionar o tooltip logo abaixo do campo */
+    left: 40%;
+    /* Ajuste para centralizar horizontalmente */
+    box-shadow: 5px 4px 6px rgb(208, 208, 208);
+    /* Sombra opcional */
+}
+
+
+/* Estilo do triângulo */
+.error-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    /* Posiciona o triângulo acima do tooltip */
+    left: 50%;
+    margin-left: -5px;
+    /* Centraliza o triângulo em relação ao tooltip */
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #162938 transparent;
+}
+
+.error-container {
+    display: none;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    /* Borda vermelha */
+    padding: 10px;
+    /* Espaçamento interno */
+    margin: 10px 0;
+    /* Margem em torno da div */
+    border-radius: 5px;
+    /* Arredondar os cantos */
+}
+
+.link-container {
+    display: flex;
+    justify-content: center;
+    /* Centraliza o link horizontalmente */
+    width: 100%;
+    /* Garante que ocupe toda a largura do wrapper */
+    margin-top: 30px;
+    /* Adiciona um espaço acima do link */
+}
+
+.wrapper a {
+    text-decoration: none;
+    color: #0A4973;
+}
+
+.wrapper a:hover {
+    text-decoration: underline;
+}

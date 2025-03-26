@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Perfil</title>
+  <link rel="stylesheet" href="{% static 'css/login_admin_geral.css' %}">
+</head>
+
+<body>
+   <header>
+        <div class="logo">
+            <img src="{% static 'img/Logo_pequena.png' %}" alt="Busca Pharma"/>
+        </div>
+    </header>
+
+<div class="wrapper" style="height: max-content" >
+  <div class="form-box Register">
+    <h2>Editar Perfil Admin</h2>
+      {% if messages %}
+      {% for message in messages %}
+             <div class="error-message" id="erro">{{ message }}</div>
+      {% endfor %}
+        {% endif %}
+    <form action="{% url 'editar_perfil_admin' username_admin username_geral %}" method="POST" id="form">
+        {% csrf_token %}
+      <div class="input-box">
+        <span class="icon"><ion-icon name="email-outline"></ion-icon></span>
+        <input id="email" type="text" name="email" value="{{ admin.email }}" required>
+        <label>Email</label>
+      </div>
+         <div class="input-box">
+        <span class="icon"><ion-icon name="email-outline"></ion-icon></span>
+        <input id="username" type="text" name="username" value="{{ username_admin }}" required>
+        <label>Username</label>
+      </div>
+      <div class="input-box">
+        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+        <input id="nome" type="text" name="nome" value="{{ admin.first_name }} {{ admin.last_name  }}" required>
+        <label>Nome Completo</label>
+      </div>
+      <button type="submit" class="btn" id="btn-atualizar">Atualizar</button>
+
+      <div class="login-register">
+          <p>Deseja cancelar?</p>
+           <a href={% url 'home_admin_geral' username_geral %}>Voltar para Home</a>
+      </div>
+    </form>
+  </div>
+</div>
+   <script>
+      const mensagemErro = document.getElementById('erro')
+       if(mensagemErro.innerText.includes('Alteração realizada com sucesso!')) {
+           mensagemErro.innerText = '';
+           mensagemErro.style.display = 'none';
+       }
+   </script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons/.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons/.js"></script>
+</body>
+
+</html>

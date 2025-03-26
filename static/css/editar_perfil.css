@@ -1,0 +1,187 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0A4973;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+}
+
+header .logo img {
+    background: transparent;
+    border-radius: 3%;
+    height: 60px;
+    width: 180px;
+    padding: 0 1rem 0 1rem;
+}
+
+.wrapper {
+    position: absolute;
+    width: 600px;
+    height: 550px;
+    background: #fff;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 40px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.form-box h2 {
+    font-size: 3.5em;
+    color: #162938;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    border-bottom: 2px solid #162938;
+    margin: 30px auto;
+    display: flex;
+    align-items: center;
+}
+
+.input-box label {
+    position: absolute;
+    top: 80%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.2em;
+    color: #162938;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 20px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 57px;
+}
+/* DDD and Phone Number */
+.ddd-phone-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente os campos */
+    margin: 0;
+    padding: 0;
+}
+.ddd-phone-container .ddd-select {
+    width: max-content;
+    height: 40px; /* Certifique-se de que a altura seja consistente com o campo de telefone */
+    padding: 0 2px; /* Ajuste o padding conforme necessário */
+    border: 2px solid #162938;
+    border-radius: 5px;
+    font-size: 1.2em;
+    color: #162938;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.ddd-phone-container .input-box-phone {
+    flex: 1; /* O campo de telefone ocupa o restante do espaço disponível */
+}
+/* Show Password Checkbox */
+.show-password-container {
+    font-size: 0.9em;
+    color: #162938;
+    font-weight: 500;
+    margin-bottom: 15px;
+    /* Ajuste para espaçamento */
+    display: flex;
+}
+
+.show-password-container input {
+    accent-color: #162938;
+    margin-right: 10px;
+}
+
+.btn {
+    width: 100%;
+    height: 50px;
+    background: #ff8800;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #162938;
+    font-weight: 500;
+}
+.login-register{
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.login-register p {
+    font-size: 1em;
+    color: #162938;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+
+.login-register a{
+    color: #ff8800;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-register p a:hover {
+    text-decoration: underline;
+}
+.error-message {
+    display: block;
+    background: #ffffff; /* Cor de fundo do tooltip */
+    color: #000000; /* Cor do texto */
+    border: 1px solid #162938; /* Cor da borda */
+    border-radius: 4px;
+    padding: 8px; /* Ajuste conforme necessário */
+    font-size: 12px; /* Ajuste conforme necessário */
+    font-family: sans-serif, serif;
+    font-weight: bold;
+    width: 300px;
+    text-align: center;/* Ajuste conforme necessário */
+    box-shadow: 5px 4px 6px rgb(208, 208, 208); /* Sombra opcional */
+}
